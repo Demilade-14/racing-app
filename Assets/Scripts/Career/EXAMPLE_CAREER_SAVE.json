@@ -1,0 +1,357 @@
+{
+  "// EXAMPLE_SAVE_FILE": "This shows a complete driver career save at the midpoint of season 1, P2 in championship",
+  "// USAGE": "Save as JSON to Application.persistentDataPath for cross-platform persistence",
+
+  "saveSlot": {
+    "slotId": "driver_2026_lewis_001",
+    "slotName": "Lewis Hamilton F1 2026",
+    "slotType": "CareerType.Driver",
+    "selectedIndex": 0,
+    "savedAt": "2026-06-07T14:32:00Z",
+    "totalPlaySeconds": 3720
+  },
+
+  "career": {
+    "// CAREER_METADATA": "Top-level career container",
+    "saveId": "driver_2026_lewis_001",
+    "careerType": "Driver",
+    "phase": "RaceWeekend",
+    "currentRound": 5,
+    "season": 1,
+
+    "profile": {
+      "// DRIVER_IDENTITY": "Who the player is in the world",
+      "profileId": "player_uuid_12345",
+      "driverName": "Lewis",
+      "driverCode": "LH",
+      "nationality": "British",
+      "raceNumber": 44,
+      "tier": "Formula1",
+      "currentTeam": "Mercedes",
+      "marketValue": 45000000,
+
+      "// ATTRIBUTES": "0-99 scale, affect race performance",
+      "attributes": {
+        "cornering": 82,
+        "corneringXP": 342,
+        "braking": 85,
+        "brakingXP": 156,
+        "overtaking": 78,
+        "overtakingXP": 489,
+        "defending": 80,
+        "defendingXP": 720,
+        "awareness": 86,
+        "awarenessXP": 203,
+        "consistency": 83,
+        "consistencyXP": 567,
+        "overallRating": 82,
+        "wetWeatherSkill": 78,
+        "tireManagement": 81
+      },
+
+      "// SEASON_STATISTICS": "Current season progress",
+      "seasonPoints": 68,
+      "seasonWins": 2,
+      "seasonPodiums": 4,
+      "seasonPoles": 2,
+      "seasonFastestLaps": 3,
+      "seasonDNFs": 0,
+      "seasonOvertakes": 34,
+
+      "// CAREER_TOTALS": "All-time statistics",
+      "careerRaces": 45,
+      "careerWins": 15,
+      "careerPodiums": 35,
+      "careerPoints": 1850,
+      "careerChampionships": 1,
+      "racesSinceCareerStart": 45,
+
+      "// SKILL_POINTS": "Spendable progression currency",
+      "skillPointsSpendable": 12,
+      "skillPointsSpent": 38,
+
+      "// RELATIONSHIPS": "Team and media standing",
+      "teamRelationship": 82,
+      "reputation": 78,
+      "teammateSatisfaction": 65,
+
+      "// ACTIVE_CONTRACT": "Current employment",
+      "activeContract": {
+        "teamName": "Mercedes",
+        "tier": "Formula1",
+        "annualSalary": 25000000,
+        "podiumBonus": 2500000,
+        "winBonus": 10000000,
+        "durationSeasons": 2,
+        "seasonsRemaining": 1,
+        "hasNumberOneClause": true,
+        "contractExpiringSeason": 2
+      },
+
+      "// CONTRACT_HISTORY": "All past contracts",
+      "contractHistory": [
+        {
+          "teamName": "Ferrari",
+          "tier": "Formula2",
+          "annualSalary": 2500000,
+          "podiumBonus": 200000,
+          "winBonus": 1000000,
+          "durationSeasons": 1,
+          "hasNumberOneClause": false
+        }
+      ],
+
+      "// R&D_BUDGET": "Car development tokens",
+      "rnDBudget": {
+        "tokensAvailable": 340,
+        "tokensBudgeted": 160,
+        "tokensEarned": 500,
+        "research": [
+          {
+            "categoryName": "Aerodynamics",
+            "level": 3,
+            "maxLevel": 5,
+            "performanceGain": 0.045,
+            "performanceMultiplier": 1.045,
+            "tokensCost": 600,
+            "costToNextLevel": 300
+          },
+          {
+            "categoryName": "PowerUnit",
+            "level": 1,
+            "maxLevel": 5,
+            "performanceGain": 0.015,
+            "performanceMultiplier": 1.015,
+            "tokensCost": 0,
+            "costToNextLevel": 100
+          },
+          {
+            "categoryName": "Chassis",
+            "level": 2,
+            "maxLevel": 5,
+            "performanceGain": 0.030,
+            "performanceMultiplier": 1.030,
+            "tokensCost": 100,
+            "costToNextLevel": 200
+          },
+          {
+            "categoryName": "Reliability",
+            "level": 1,
+            "maxLevel": 5,
+            "performanceGain": 0.015,
+            "performanceMultiplier": 1.015,
+            "tokensCost": 0,
+            "costToNextLevel": 100
+          }
+        ]
+      }
+    },
+
+    "// CALENDAR": "Complete season race schedule",
+    "calendar": [
+      {
+        "round": 1,
+        "circuitName": "Bahrain",
+        "gridPosition": 1,
+        "result": {
+          "finishPosition": 1,
+          "pointsEarned": 25,
+          "hasFastestLap": true,
+          "retired": false,
+          "penalty": 0,
+          "avgLapTime": 92.34
+        },
+        "overtakesThisRace": 0,
+        "achievedFastestLap": true,
+        "weather": "Dry",
+        "penalties": 0
+      },
+      {
+        "round": 2,
+        "circuitName": "Saudi Arabia",
+        "gridPosition": 2,
+        "result": {
+          "finishPosition": 2,
+          "pointsEarned": 18,
+          "hasFastestLap": true,
+          "retired": false,
+          "penalty": 0,
+          "avgLapTime": 91.12
+        },
+        "overtakesThisRace": 1,
+        "achievedFastestLap": true,
+        "weather": "Dry",
+        "penalties": 0
+      },
+      {
+        "round": 3,
+        "circuitName": "Australia",
+        "gridPosition": 1,
+        "result": {
+          "finishPosition": 1,
+          "pointsEarned": 25,
+          "hasFastestLap": false,
+          "retired": false,
+          "penalty": 0,
+          "avgLapTime": 88.56
+        },
+        "overtakesThisRace": 2,
+        "achievedFastestLap": false,
+        "weather": "Dry",
+        "penalties": 0
+      },
+      {
+        "round": 4,
+        "circuitName": "Japan",
+        "gridPosition": 3,
+        "result": {
+          "finishPosition": 3,
+          "pointsEarned": 15,
+          "hasFastestLap": false,
+          "retired": false,
+          "penalty": 5,
+          "avgLapTime": 89.78
+        },
+        "overtakesThisRace": 4,
+        "achievedFastestLap": false,
+        "weather": "Wet",
+        "penalties": 5
+      },
+      {
+        "round": 5,
+        "circuitName": "Monaco",
+        "gridPosition": 0,
+        "result": null,
+        "overtakesThisRace": 0,
+        "achievedFastestLap": false,
+        "weather": "Unknown",
+        "penalties": 0
+      }
+    ],
+
+    "// OBJECTIVES": "Season goals with reputation/skill rewards",
+    "objectives": [
+      {
+        "id": "season_wins_target",
+        "description": "Score 3 wins this season",
+        "status": "InProgress",
+        "progress": 2,
+        "target": 3,
+        "isPrimary": true,
+        "reputationReward": 20,
+        "skillPointReward": 50,
+        "completed": false
+      },
+      {
+        "id": "beat_teammate",
+        "description": "Out-score your teammate all season",
+        "status": "InProgress",
+        "progress": 68,
+        "target": 120,
+        "isPrimary": true,
+        "reputationReward": 15,
+        "skillPointReward": 30,
+        "completed": false
+      },
+      {
+        "id": "podium_target",
+        "description": "Score 8 podiums this season",
+        "status": "InProgress",
+        "progress": 4,
+        "target": 8,
+        "isPrimary": false,
+        "reputationReward": 10,
+        "skillPointReward": 20,
+        "completed": false
+      }
+    ],
+
+    "// MEDIA_STATE": "Press and sponsor relationship tracking",
+    "media": {
+      "fanPopularity": 65,
+      "sponsorHappiness": 71,
+      "tearmMoraleStatus": "Satisfied",
+      "sponsorStatus": "Good Relations",
+      "recentHeadlines": [
+        {
+          "date": "2026-06-06",
+          "headline": "🏆 Hamilton WINS again! Two victories in five races",
+          "type": "VictoryAnnouncement"
+        },
+        {
+          "date": "2026-06-02",
+          "headline": "🤝 Excellent work by the team - Hamilton full of praise",
+          "type": "TeamPraise"
+        }
+      ]
+    },
+
+    "// PENDING_EVENTS": "Unresolved career events",
+    "pendingEvents": [
+      {
+        "id": "contract_expiring_warning",
+        "type": "ContractExpiring",
+        "triggerSeason": 2,
+        "description": "Your Mercedes contract expires at end of season 2"
+      }
+    ],
+
+    "// STATS_SNAPSHOT": "Quick reference metrics",
+    "stats": {
+      "averageFinishPosition": 1.8,
+      "pointsPerRace": 13.6,
+      "winsPerSeason": 2.0,
+      "driverRatingTrend": "Improving",
+      "bestCircuit": "Bahrain",
+      "worstCircuit": "Monaco",
+      "favoriteTire": "Hard",
+      "favoriteWeather": "Dry"
+    }
+  },
+
+  "// CHAMPIONSHIP_STATE": "Standings mirror (for UI display)",
+  "championshipSnapshot": {
+    "season": 1,
+    "round": 5,
+    "standings": [
+      {
+        "position": 1,
+        "driverName": "Max Verstappen",
+        "team": "Red Bull",
+        "points": 93,
+        "wins": 3,
+        "isPlayer": false
+      },
+      {
+        "position": 2,
+        "driverName": "Lewis",
+        "team": "Mercedes",
+        "points": 68,
+        "wins": 2,
+        "isPlayer": true
+      },
+      {
+        "position": 3,
+        "driverName": "Charles Leclerc",
+        "team": "Ferrari",
+        "points": 62,
+        "wins": 1,
+        "isPlayer": false
+      }
+    ]
+  },
+
+  "// METADATA": "Save persistence info",
+  "metadata": {
+    "version": "1.0",
+    "gameVersion": "Racing Game v2.1",
+    "platform": "iOS",
+    "timezone": "UTC",
+    "lastModified": "2026-06-07T14:32:00Z",
+    "playtime": {
+      "totalSeconds": 3720,
+      "totalMinutes": 62,
+      "totalHours": 1.03
+    }
+  }
+}

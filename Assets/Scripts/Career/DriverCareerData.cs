@@ -8,65 +8,78 @@ namespace RacingGame.Career
     // ═══════════════════════════════════════════════════════════════════════
     //  ENUMS
     // ═══════════════════════════════════════════════════════════════════════
-    public enum CareerModeType      { Driver, Manager }
-    public enum CareerPhase         { PreSeason, RaceWeekend, PostSeason, TransferWindow }
-    public enum SessionPhase        { FP1, FP2, FP3, Qualifying, Race }
-    public enum ObjectiveStatus     { Pending, Met, Failed }
-    public enum AccoladeRarity      { Bronze, Silver, Gold, Legendary }
-    public enum DriverIconType      { Custom, Icon }
-    public enum TeamRelationship    { Poor, Neutral, Good, Excellent }
-    public enum MidSeasonTransferReason { PoorForm, TeamDissatisfaction, BetterOffer }
+    public enum CareerModeType         { Driver, Manager }
+    public enum CareerPhase            { PreSeason, RaceWeekend, PostSeason, TransferWindow }
+    public enum SessionPhase           { FP1, FP2, FP3, Qualifying, Race }
+    public enum ObjectiveStatus        { Pending, Met, Failed }
+    public enum AccoladeRarity         { Bronze, Silver, Gold, Legendary }
+    public enum DriverIconType         { Custom, Icon, RealDriver }
+    public enum TeamRelationship       { Poor, Neutral, Good, Excellent }
+    public enum MidSeasonTransferReason{ PoorForm, TeamDissatisfaction, BetterOffer }
+    public enum SeriesTier             { Formula3, Formula2, Formula1 }
+    public enum CircuitType            { Permanent, Street, SemiStreet }
+    public enum CircuitLighting        { Standard, Cinematic, Night }
+    public enum DeploymentMode         { Harvest, Balanced, Attack }
+    public enum TyreCompound           { Soft, Medium, Hard, Inter, Wet }
+    public enum EngineManufacturer     { Mercedes, Ferrari, RedBull, Renault, Honda, Audi, Cadillac }
+    public enum InterestLevel          { None, Cold, Warm, Hot }
+    public enum LegacyTier             { Rookie, SolidPro, RaceWinner, Champion, Legend, GOAT }
+    public enum NegotiationResult      { Accept, CounterOffer, Reject }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  DRIVER PROFILE  —  the persistent player identity
+    //  DRIVER PROFILE  —  persistent player identity (EXTENDED for 2026)
     // ═══════════════════════════════════════════════════════════════════════
     [Serializable]
     public class DriverProfile
     {
         // ── Identity ──────────────────────────────────────────────────────
-        public string        profileId       = Guid.NewGuid().ToString("N");
-        public string        driverName;
-        public string        driverCode;          // 3-letter e.g. "HAR"
-        public int           raceNumber;
-        public string        nationality;
-        public int           age             = 19;
-        public DriverIconType iconType       = DriverIconType.Custom;
-        public string        iconBaseName;        // set if iconType == Icon
+        public string         profileId            = Guid.NewGuid().ToString("N");
+        public string         driverName;
+        public string         driverCode;           // 3-letter e.g. "HAR"
+        public int            raceNumber;
+        public string         nationality;
+        public int            age                  = 19;
+        public DriverIconType iconType             = DriverIconType.Custom;
+        public string         iconBaseName;
 
-        // ── Core stats (0-99, F1 25 style) ───────────────────────────────
+        // ── Core stats (0-99) ─────────────────────────────────────────────
         public int pace;
         public int awareness;
         public int racecraft;
         public int experience;
 
-        // Derived OVR shown on driver card
-        public int OVR => Mathf.RoundToInt(pace * 0.30f + racecraft * 0.28f
-                                         + awareness * 0.22f + experience * 0.20f);
+        // Derived OVR
+        public int OVR => Mathf.RoundToInt(
+            pace        * 0.30f +
+            racecraft   * 0.28f +
+            awareness   * 0.22f +
+            experience  * 0.20f);
 
         // ── Reputation & relationship ─────────────────────────────────────
-        public float reputation        = 10f;    // 0-100, gates contract tier
-        public TeamRelationship teamRelationship = TeamRelationship.Neutral;
-        public float teamRelationshipScore = 50f; // 0-100, tracks morale
+        public float          reputation            = 10f;
+        public string         reputationTier        = "Rookie"; // Rookie/Prospect/Established/Star/Legend
+        public TeamRelationship teamRelationship    = TeamRelationship.Neutral;
+        public float          teamRelationshipScore = 50f;
 
-        // ── Stat XP (fills until next point is awarded) ───────────────────
+        // ── Stat XP ───────────────────────────────────────────────────────
         public float paceXP;
         public float awarenessXP;
         public float racecraftXP;
         public float experienceXP;
-        public int   skillPoints;           // spendable points from practice programs
+        public int   skillPoints;
 
         // ── Career metadata ────────────────────────────────────────────────
-        public SeriesTier    tier           = SeriesTier.Formula2;
-        public int           season         = 1;
-        public string        currentTeam;
-        public int           seatNumber     = 2;    // 1 = #1 driver, 2 = #2
-        public bool          hasNumberOne;
+        public SeriesTier tier          = SeriesTier.Formula2;
+        public int        season        = 1;
+        public string     currentTeam;
+        public int        seatNumber    = 2;
+        public bool       hasNumberOne;
 
         // ── Financial ─────────────────────────────────────────────────────
-        public float         balance;
+        public float          balance;
         public DriverContract activeContract;
 
-        // ── Season stats (reset each season) ─────────────────────────────
+        // ── Season stats ──────────────────────────────────────────────────
         public int seasonPoints;
         public int seasonWins;
         public int seasonPodiums;
@@ -86,10 +99,66 @@ namespace RacingGame.Career
         public int careerFastestLaps;
 
         // ── Collections ───────────────────────────────────────────────────
-        public List<Accolade>         accolades       = new();
-        public List<DriverRival>      rivals          = new();
-        public List<SeasonObjective>  objectives      = new();
-        public List<DriverContract>   contractHistory = new();
+        public List<Accolade>        accolades       = new();
+        public List<DriverRival>     rivals          = new();
+        public List<SeasonObjective> objectives      = new();
+        public List<DriverContract>  contractHistory = new();
+        public List<SeasonRecord>    seasonHistory   = new();
+
+        // ── 2026: ERS / Active Aero preferences ───────────────────────────
+        public DeploymentMode preferredDeployMode = DeploymentMode.Balanced;
+        public float          ersManagementSkill  = 50f; // affects battery efficiency
+        public float          tyreManagementSkill = 50f; // affects tyre deg with high ERS
+
+        // ── Legacy goal tracking ───────────────────────────────────────────
+        public LegacyTier legacyTier = LegacyTier.Rookie;
+
+        // ── Computed reputation tier ───────────────────────────────────────
+        public void UpdateReputationTier()
+        {
+            reputationTier = reputation switch
+            {
+                < 20f  => "Rookie",
+                < 40f  => "Prospect",
+                < 60f  => "Established",
+                < 80f  => "Star",
+                _      => "Legend"
+            };
+        }
+
+        // ── Computed legacy tier ───────────────────────────────────────────
+        public void UpdateLegacyTier()
+        {
+            legacyTier = careerWins switch
+            {
+                0          => LegacyTier.Rookie,
+                < 5        => LegacyTier.SolidPro,
+                < 15       => LegacyTier.RaceWinner,
+                < 30       when careerChampionships < 1 => LegacyTier.RaceWinner,
+                _          when careerChampionships >= 1 && careerChampionships < 3 => LegacyTier.Champion,
+                _          when careerChampionships >= 3 && careerChampionships < 7 => LegacyTier.Legend,
+                _          => LegacyTier.GOAT
+            };
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  SEASON RECORD  —  summary of one completed season
+    // ═══════════════════════════════════════════════════════════════════════
+    [Serializable]
+    public class SeasonRecord
+    {
+        public int    season;
+        public int    finalPosition;
+        public int    points;
+        public int    wins;
+        public int    podiums;
+        public int    poles;
+        public int    fastestLaps;
+        public int    dnfs;
+        public string teamName;
+        public bool   wonChampionship;
+        public int    teammateFinishPos;   // end-of-season teammate comparison
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -98,16 +167,18 @@ namespace RacingGame.Career
     [Serializable]
     public class DriverIcon
     {
-        public string  name;
-        public string  code;
-        public string  nationality;
-        public int     peakSeason;      // year their stats reflect
-        public int     pace;
-        public int     awareness;
-        public int     racecraft;
-        public int     experience;
-        public float   startingReputation;
-        public string  legacyDescription;
+        public string name;
+        public string code;
+        public string nationality;
+        public int    peakSeason;
+        public int    pace;
+        public int    awareness;
+        public int    racecraft;
+        public int    experience;
+        public float  startingReputation;
+        public string legacyDescription;
+        public bool   canBeAISigned;        // 2026: AI teams can sign icons
+        public bool   isEnabled;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -127,7 +198,7 @@ namespace RacingGame.Career
         public int    seasonsRemaining;
         public bool   hasNumberOneClause;
         public bool   hasVetoOnTeammate;
-        public float  performanceReleaseThreshold;  // rep floor — fall below = team can release
+        public float  performanceReleaseThreshold;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -143,12 +214,16 @@ namespace RacingGame.Career
         public float  winBonus;
         public int    seasons;
         public bool   offersNumberOne;
-        public float  teamInterestScore;    // 0-100, how much team wants the player
+        public float  teamInterestScore;
         public float  minReputationRequired;
+        public InterestLevel interestLevel;
 
         // Player negotiation counters
         public float  playerCounterSalary;
         public bool   playerRequestsNumberOne;
+
+        // Team budget — used internally for negotiation evaluation
+        [HideInInspector] public float teamBudgetAllocation;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -159,25 +234,30 @@ namespace RacingGame.Career
     {
         public string          id;
         public string          description;
-        public ObjectiveStatus status      = ObjectiveStatus.Pending;
+        public ObjectiveStatus status           = ObjectiveStatus.Pending;
         public float           reputationReward;
         public float           salaryBonusReward;
         public int             skillPointReward;
-        public bool            isPrimary;      // primary = affects contract renewal
+        public bool            isPrimary;
+        public float           progressValue;    // e.g. current championship pos
+        public float           targetValue;      // e.g. top-8 = 8
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  ACCOLADE  (milestone achievement)
+    //  ACCOLADE
     // ═══════════════════════════════════════════════════════════════════════
     [Serializable]
     public class Accolade
     {
-        public string        id;
-        public string        title;
-        public string        description;
+        public string         id;
+        public string         title;
+        public string         description;
         public AccoladeRarity rarity;
-        public float         reputationBonus;
-        public DateTime      earnedDate;
+        public float          reputationBonus;
+        public DateTime       earnedDate;
+        public int            earnedSeason;
+        public int            earnedRound;
+        public string         category;   // "Race" | "Season" | "Career" | "Legendary"
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -188,10 +268,10 @@ namespace RacingGame.Career
     {
         public string rivalName;
         public string rivalTeam;
-        public int    pointsDelta;          // their pts minus player's pts
+        public int    pointsDelta;
         public int    headToHeadWins;
         public int    headToHeadLosses;
-        public float  intensityScore;       // 0-1, how fierce the rivalry is
+        public float  intensityScore;
         public bool   isTeammate;
     }
 
@@ -204,7 +284,7 @@ namespace RacingGame.Career
         public string            id;
         public string            headline;
         public string            bodyText;
-        public string            category;   // "Media", "Sponsor", "TeamDispute", "Training"
+        public string            category;   // "Media"|"Sponsor"|"TeamDispute"|"Training"
         public List<EventChoice> choices     = new();
     }
 
@@ -215,7 +295,7 @@ namespace RacingGame.Career
         public float  reputationDelta;
         public float  teamRelationshipDelta;
         public float  balanceDelta;
-        public string statToBoost;          // "pace"|"awareness"|"racecraft"|null
+        public string statToBoost;
         public float  statXPReward;
         public string outcomeDescription;
     }
@@ -227,16 +307,16 @@ namespace RacingGame.Career
     public class PracticeProgram
     {
         public string programId;
-        public string name;             // "Tyre Management", "Quali Sim", "Race Pace"
-        public string statRewarded;     // which stat XP this grows
+        public string name;
+        public string statRewarded;
         public float  xpReward;
         public int    skillPointReward;
         public bool   completed;
-        public float  score;            // 0-100, set after session
+        public float  score;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  DRIVER RACE WEEKEND  (extended from existing RaceWeekend)
+    //  DRIVER RACE WEEKEND
     // ═══════════════════════════════════════════════════════════════════════
     [Serializable]
     public class DriverRaceWeekend
@@ -245,19 +325,26 @@ namespace RacingGame.Career
         public string circuitName;
         public bool   fp1Done, fp2Done, fp3Done, qualiDone;
         public int    gridPosition;
-        public int    qualiEliminated;      // 0=none, 1=Q1, 2=Q2, 3=Q3
+        public int    qualiEliminated;
         public RaceResult result;
         public List<PracticeProgram> practicePrograms = new();
         public bool   IsComplete => result != null;
 
-        // Stats earned this weekend
         public int    overtakesThisRace;
         public bool   achievedFastestLap;
-        public float  consistencyScore;     // 0-1 based on lap time variance
+        public float  consistencyScore;
+
+        // ── 2026 race weekend data ─────────────────────────────────────────
+        public float  avgBatteryDeployPercent;   // average ERS deploy % across race
+        public int    overtakeModeActivations;   // how many times player used overtake mode
+        public bool   activeAeroFaultOccurred;   // mechanical failure flag
+        public TyreCompound startingTyre;
+        public TyreCompound finalTyre;
+        public int    tyreStops;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  CHAMPIONSHIP ENTRY  (shared between Driver & Manager modes)
+    //  CHAMPIONSHIP ENTRY
     // ═══════════════════════════════════════════════════════════════════════
     [Serializable]
     public class ChampionshipEntry
@@ -272,34 +359,188 @@ namespace RacingGame.Career
         public int    position;
         public bool   isPlayer;
         public bool   isRetired;
-        public int[]  raceResults = new int[23]; // finish pos per round
+        public int[]  raceResults = new int[24]; // 2026 has up to 24 rounds
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  DRIVER CAREER SAVE  —  full serializable state for one save slot
+    //  2026 — CAR DATA
+    // ═══════════════════════════════════════════════════════════════════════
+    [Serializable]
+    public class Car2026Data
+    {
+        // Active aerodynamics
+        public bool  hasActiveAero             = true;
+        public float aeroDragReductionFactor   = 0.23f;  // % drag cut when aero opens
+        public float aeroDownforceLossFactor   = 0.35f;  // % downforce lost when open
+        public float aeroDeploySpeedThreshold  = 280f;   // km/h threshold for auto-deploy
+        public float aeroSteeringThreshold     = 15f;    // degrees of steering that retracts
+
+        // ERS / Hybrid
+        public float ersCapacityMJ             = 8.5f;   // 2026 regulation limit
+        public float motorPowerKW              = 350f;   // electric motor output
+        public float combustionPowerKW         = 400f;   // ICE contribution
+        public float batteryRecoveryPerLap     = 1.8f;   // MJ recovered per average lap
+        public float batteryDeployAttackPerLap = 2.4f;   // MJ used in Attack mode per lap
+
+        // Overtake mode
+        public bool  hasOvertakeMode           = true;
+        public float overtakeBoostKW           = 200f;
+        public float overtakeBoostDurationSec  = 5f;
+        public float overtakeCooldownSec       = 20f;
+        public float overtakeBatteryThreshold  = 0.30f; // must have > 30% battery
+
+        // Current runtime state (not saved — reset each race)
+        [NonSerialized] public float  currentBatteryPercent = 100f;
+        [NonSerialized] public bool   overtakeModeActive;
+        [NonSerialized] public float  overtakeDurationRemaining;
+        [NonSerialized] public float  overtakeCooldownRemaining;
+        [NonSerialized] public bool   aeroDeployed;
+        [NonSerialized] public DeploymentMode currentDeployMode = DeploymentMode.Balanced;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  2026 — TEAM DATA  (extends existing TeamData concept)
+    // ═══════════════════════════════════════════════════════════════════════
+    [Serializable]
+    public class TeamData2026
+    {
+        public string  teamName;
+        public string  shortName;
+        public string  primaryColorHex;
+        public string  secondaryColorHex;
+        public float   performanceRating;      // 0-100
+        public float   carRating;
+        public float   reliabilityRating;      // 2026: active aero adds failure risk
+        public float   annualBudget;
+        public bool    isNew2026Entry;
+        public bool    is11thTeam;
+        public EngineManufacturer engineSupplier;
+        public float   budgetAllocationPerSeat; // used in contract offer generation
+        public Car2026Data carSpecs = new();
+
+        // ── Preset: Audi F1 Team ───────────────────────────────────────────
+        public static TeamData2026 Audi() => new()
+        {
+            teamName             = "Audi F1 Team",
+            shortName            = "AUDI",
+            primaryColorHex      = "#E8002D",
+            secondaryColorHex    = "#000000",
+            performanceRating    = 72f,
+            carRating            = 70f,
+            reliabilityRating    = 68f,
+            annualBudget         = 320_000_000f,
+            isNew2026Entry       = true,
+            is11thTeam           = false,
+            engineSupplier       = EngineManufacturer.Audi,
+            budgetAllocationPerSeat = 18_000_000f
+        };
+
+        // ── Preset: Cadillac F1 Team ───────────────────────────────────────
+        public static TeamData2026 Cadillac() => new()
+        {
+            teamName             = "Cadillac F1 Team",
+            shortName            = "CAD",
+            primaryColorHex      = "#1B3B8A",
+            secondaryColorHex    = "#FFFFFF",
+            performanceRating    = 65f,
+            carRating            = 63f,
+            reliabilityRating    = 62f,
+            annualBudget         = 280_000_000f,
+            isNew2026Entry       = true,
+            is11thTeam           = true,
+            engineSupplier       = EngineManufacturer.Cadillac,
+            budgetAllocationPerSeat = 12_000_000f
+        };
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  2026 — CIRCUIT DATA  (extends existing CircuitData concept)
+    // ═══════════════════════════════════════════════════════════════════════
+    [Serializable]
+    public class CircuitData2026
+    {
+        public string         name;
+        public string         shortName;
+        public string         country;
+        public string         countryCode;
+        public float          lapLengthKm;
+        public int            numberOfCorners;
+        public int            drsZones;
+        public CircuitType    circuitType;
+        public CircuitLighting lighting;
+        public float          lapRecord;
+        public int            raceRound;
+        public float          safetyCárProbability;    // 0-1
+        public float          overtakeOpportunityRating; // 0-1, how easy to overtake
+        public float          tyreWearMultiplier;       // higher = faster tyre deg
+
+        // ── Preset: Madrid "MADRING" ───────────────────────────────────────
+        public static CircuitData2026 Madrid() => new()
+        {
+            name                     = "Madrid Street Circuit",
+            shortName                = "MADRING",
+            country                  = "Spain",
+            countryCode              = "ES",
+            lapLengthKm              = 5.47f,
+            numberOfCorners          = 20,
+            drsZones                 = 3,
+            circuitType              = CircuitType.Street,
+            lighting                 = CircuitLighting.Cinematic,
+            lapRecord                = 0f,
+            raceRound                = 9,
+            safetyCárProbability     = 0.35f,
+            overtakeOpportunityRating = 0.68f,
+            tyreWearMultiplier       = 1.25f    // street circuit = higher tyre wear
+        };
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  TEAM INTEREST ENTRY  —  used by TransferMarket to show player
+    // ═══════════════════════════════════════════════════════════════════════
+    [Serializable]
+    public class TeamInterestEntry
+    {
+        public string        teamName;
+        public InterestLevel interest;
+        public float         estimatedSalaryMin;
+        public float         estimatedSalaryMax;
+        public bool          seatAvailable;
+        public string        availableRole;   // "No.1 Driver" | "No.2 Driver"
+        public float         performanceRating;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    //  DRIVER CAREER SAVE  —  full serializable state (EXTENDED)
     // ═══════════════════════════════════════════════════════════════════════
     [Serializable]
     public class DriverCareerSave
     {
-        public string              saveId       = Guid.NewGuid().ToString("N");
-        public string              saveSlotName;
-        public CareerModeType      modeType     = CareerModeType.Driver;
-        public DriverProfile       profile      = new();
-        public CareerPhase         phase        = CareerPhase.PreSeason;
-        public int                 currentRound = 0;
-        public List<DriverRaceWeekend> calendar = new();
-        public List<EventCard>     pendingEvents= new();
-        public DateTime            lastSaved;
+        public string           saveId        = Guid.NewGuid().ToString("N");
+        public string           saveSlotName;
+        public CareerModeType   modeType      = CareerModeType.Driver;
+        public DriverProfile    profile       = new();
+        public CareerPhase      phase         = CareerPhase.PreSeason;
+        public int              currentRound  = 0;
+        public List<DriverRaceWeekend> calendar  = new();
+        public List<EventCard>  pendingEvents = new();
+        public DateTime         lastSaved;
 
-        // Legacy goals (multi-season)
+        // Legacy goals
         public int  legacyWinsTarget       = 50;
         public int  legacyChampTarget      = 3;
         public int  legacyPolesTarget      = 40;
         public bool legacyCompleted        = false;
+
+        // 2026 additions
+        public bool  startedInF2           = true;
+        public bool  iconsEnabledOnGrid    = true;    // allow AI to sign Driver Icons
+        public bool  cadillacOnGrid        = true;    // 11th team toggle
+        public bool  audiOnGrid            = true;
+        public string gameVersion          = "2026";
     }
 
     // ═══════════════════════════════════════════════════════════════════════
-    //  CAREER SLOT HEADER  (shown on the selection screen, no full load)
+    //  CAREER SLOT HEADER  (shown on selection screen)
     // ═══════════════════════════════════════════════════════════════════════
     [Serializable]
     public class CareerSlotHeader
@@ -314,5 +555,6 @@ namespace RacingGame.Career
         public int            careerPoints;
         public SeriesTier     tier;
         public DateTime       lastSaved;
+        public string         gameVersion;     // "2026" tag shown on slot card
     }
 }
